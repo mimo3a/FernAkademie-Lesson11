@@ -63,7 +63,9 @@ public class Editor extends JFrame {
 
 		dateimenu.add(dateiNeu);
 		dateimenu.add(dateiOffnen);
+		dateimenu.addSeparator();
 		dateimenu.add(dateiSpeichern);
+		dateimenu.addSeparator();
 		dateimenu.add(dateiBeenden);
 		
 		menu.add(dateimenu);
@@ -90,8 +92,14 @@ public class Editor extends JFrame {
 	private void dateiSpeichern() {
 		eingabeFeld.setText("Save the Dokument");
 	}
+	private void dateiBeenden() {
+		if(JOptionPane.showConfirmDialog(this, "Sind Sie sicher?", "Beenden", JOptionPane.YES_NO_OPTION) ==
+				JOptionPane.YES_OPTION) {
+			System.exit(0);
+		}
+	}
 
-	class MyListener implements ActionListener {
+	public class MyListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -102,11 +110,12 @@ public class Editor extends JFrame {
 			if(e.getActionCommand().equals("save"))
 				dateiSpeichern();
 			if(e.getActionCommand().equals("exit"))
-				System.exit(0);
+				dateiBeenden();
 
 		}
 
 	}
+		
 
 	public static void main(String[] args) {
 		new Editor("Text editor");
