@@ -34,11 +34,9 @@ public class EditorDialoge {
 		int status = oefneneDialog.showOpenDialog(null);
 		
 		if (status == JFileChooser.APPROVE_OPTION) {
-			System.out.println(status);
 			return (oefneneDialog.getSelectedFile());
 		}
-		else {
-			System.out.println(status);
+		else {			
 			return null;
 		}
 	}
@@ -54,14 +52,16 @@ public class EditorDialoge {
 		else
 			return null;
 	}
+	
+	
 
-	public static void main(String[] args) {
-		EditorDialoge ed = new EditorDialoge();
-		System.out.println(ed.OffnenDialogZeigen());
-		ed.speicherDialogZeigen();
-		
-		
-
-	}
+//	public static void main(String[] args) {
+//		EditorDialoge ed = new EditorDialoge();
+//		System.out.println(ed.OffnenDialogZeigen());
+//		ed.speicherDialogZeigen();
+//		
+//		
+//
+//	}
 
 }
