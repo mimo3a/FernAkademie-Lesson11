@@ -1,6 +1,7 @@
 package editor;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,7 +38,9 @@ public class Editor extends JFrame {
 		add(new JScrollPane(eingabeFeld), BorderLayout.CENTER);
 		
 		setJMenuBar(menuBar());
+		add(menuBar(), BorderLayout.SOUTH);		
 		add(symbolleiste(), BorderLayout.NORTH);
+		
 
 		setExtendedState(MAXIMIZED_BOTH);
 		setMinimumSize(new Dimension(600, 200));
@@ -87,6 +90,7 @@ public class Editor extends JFrame {
 	dateimenu.add(dateiBeenden);
 
 	menu.add(dateimenu);
+	menu.setBackground(Color.ORANGE);
 	return menu;
 	}
 
@@ -142,6 +146,7 @@ public class Editor extends JFrame {
 		dateiNeuButton.setIcon(new ImageIcon("icons/new24.gif"));
 		dateiNeuButton.setToolTipText("Ersteiit ein neues Dokument");
 		dateiNeuButton.addActionListener(listener);
+		dateiNeuButton.setBackground(Color.yellow);
 		leiste.add(dateiNeuButton);
 		
 		JButton dateiOeffnenButton = new JButton();
