@@ -1,9 +1,7 @@
 package editor;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
@@ -14,7 +12,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,19 +25,18 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-
 import javax.swing.Action;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
-
 import javax.swing.text.html.HTMLEditorKit;
+
+
+// program for entering and editing text loading web pages
 
 public class MiniText extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JEditorPane eingabeFeld;
 	private HTMLEditorKit htmlformat;
@@ -69,6 +65,11 @@ public class MiniText extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		eingabeFeld.addMouseListener(new MeinContextMenuListener());
 		setVisible(true);
+		
+		
+//		Insert the title
+		datei = null;
+		insertTitle();
 
 		eingabeFeld.requestFocus();
 		
@@ -255,7 +256,31 @@ public class MiniText extends JFrame {
 		blockAbsatz.putValue(Action.LARGE_ICON_KEY, new ImageIcon("icons/alignJustify24.gif"));
 		leiste.add(blockAbsatz);
 		
+//		Standardaktionne aus der Klasse DefaulEditorKit
+//		create the buttons in tool bar use StyleEditorKit
+		
+		leiste.addSeparator();
+		
+		Action cutAct = new DefaultEditorKit.CutAction();
+		cutAct.putValue(Action.SHORT_DESCRIPTION, "Ausschneiden");
+		cutAct.putValue(Action.LARGE_ICON_KEY, new ImageIcon("icons/cut24.gif"));
+		leiste.add(cutAct);
+		
+		Action copyAct = new DefaultEditorKit.CopyAction();
+		copyAct.putValue(Action.SHORT_DESCRIPTION, "Kopieren");
+		copyAct.putValue(Action.LARGE_ICON_KEY,new ImageIcon("icons/copy24.gif"));
+		leiste.add(copyAct);
+		
+		Action pasteAct = new DefaultEditorKit.PasteAction();
+		pasteAct.putValue(Action.SHORT_DESCRIPTION,"Einfuegen");
+		pasteAct.putValue(Action.LARGE_ICON_KEY, new ImageIcon("icons/paste24.gif"));
+		leiste.add(pasteAct);
+		
+		
+		
+		
 //		add a menu item "info"
+		leiste.addSeparator();
 		leiste.add(infoAct);
 
 		return (leiste);
@@ -275,6 +300,10 @@ public class MiniText extends JFrame {
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			eingabeFeld.setText("");
 			datei = null;
+			
+//			insert a title 
+			
+			insertTitle();
 		}
 	}
 
@@ -288,6 +317,9 @@ public class MiniText extends JFrame {
 			try {
 				eingabeFeld.read(new FileReader(dateiLokal), null);
 				datei = dateiLokal;
+				
+//				insert a title				
+				insertTitle();
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(this, "Beim Laden hat es ein Problem gegeben", "Fehler",
 						JOptionPane.ERROR_MESSAGE);
@@ -302,6 +334,9 @@ public class MiniText extends JFrame {
 //			if not don't run
 			MiniTextDialog dialog = new MiniTextDialog();
 			datei = dialog.speicherDialogZeigen();
+			
+//			insert title
+			insertTitle();
 		}
 
 		if (datei != null) {
@@ -321,6 +356,7 @@ public class MiniText extends JFrame {
 		File dateiLokai = dialog.speicherDialogZeigen();
 		if (dateiLokai != null) {
 			datei = dateiLokai;
+			insertTitle();
 			dateiSpeichern();
 		}
 	}
@@ -350,6 +386,9 @@ public class MiniText extends JFrame {
 			try {
 				eingabeFeld.setPage(adresse);
 				datei = null;
+				
+//				in titel insert die adresse
+				insertTitle(adresse);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(this, "Beim Laden ist ein Problem getreten");
 			}
@@ -371,9 +410,26 @@ public class MiniText extends JFrame {
 			System.exit(0);
 		}
 	}
+	
+//	the overloaded method for insert a title
+//	the title is a paht in computer or an http adress
+	
+	private void insertTitle() {
+		if(datei == null)
+			setTitle("MiniText");
+		else {
+		String path = datei.toString();
+		setTitle("MiniText " + path);
+		}
+	}
+	
+	private void insertTitle(String adresse) {
+		setTitle("MiniText" + adresse);
+		
+	}
 
 	public static void main(String[] args) {
-		new MiniText("mini text");
+		new MiniText("MiniText");
 	}
 
 }
